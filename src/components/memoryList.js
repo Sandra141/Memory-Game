@@ -41,4 +41,4 @@ const doublePictureArray = () => {
 
 const memoryList = doublePictureArray();
 
-export default memoryList;
+export default doublePictureArray;

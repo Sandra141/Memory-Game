@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import './memory.css';
-import memoryList from './memoryList';
+import doublePictureArray from './memoryList';
 import Card from './Card';
 import flipSide from './images/flipSide.jpg';
 
 /*
 
 implement:
-- when done: option to play again
+- bug: one can click on cards multiple times
 -different sizes of fields
 
 */
 
 let moveCounter = 0;
 let cardCounter = 0;
+let memoryList = doublePictureArray();
 
 const Memory = () => {
     const [turnedCards, setTurnedCards] = useState([]);
     const [allOpenedCards, setAllOpenedCards] = useState([]);
+    const [gameRestart, setGameRestart] = useState(false);
 
     useEffect(() => {
         if(moveCounter === 2) {
@@ -70,27 +72,40 @@ const Memory = () => {
         const congrats = document.querySelector('#memoryPlayAgain');
         if(button === 'yes') {
             congrats.setAttribute('class', 'playAgainHidden');
-            //turn all cards around
-            allOpenedCards.forEach(img => {
+            //------------turn all cards around------------
+            /*allOpenedCards.forEach(img => {
                 img.setAttribute('src', flipSide);
-            });
-            //mix them
+            });*/
+            //------------mix up cards------------
 
             moveCounter = 0;
             cardCounter = 0;
             setTurnedCards([]);
+            setGameRestart(true);
         } else {
             congrats.setAttribute('class', 'playAgainHidden');
         }
     }
+
+    console.log(allOpenedCards);
+
+    useEffect(() => {
+        if(gameRestart) {
+            memoryList.sort((a, b) => 0.5 - Math.random());
+            setGameRestart(false);
+        } else return;
+    }, [gameRestart]);
 
     return(
         <div className='memoryContainer'>
             <div className='memoryWindow'>
                 {
                 memoryList.map((pic) => {
+                    /*const thisCardId = pic.id;
+                    const test = allOpenedCards.find((thisCardId) => thisCardId);
+                    console.log('this is my test', test);*/
                     return(
-                        <div className='memoryCard' onClick={handleClick} key={pic.id} >
+                        <div key={pic.id} className='memoryCard' onClick={handleClick} >
                             <Card props={pic} />
                         </div>
                     );
