@@ -7,13 +7,13 @@ import flipSide from './images/flipSide.jpg';
 /*
 
 implement:
-- bug: one can click on cards multiple times
 -different sizes of fields
 
 */
 
 let moveCounter = 0;
 let cardCounter = 0;
+const hasCardBeenTurned = [];
 let memoryList = doublePictureArray();
 
 const Memory = () => {
@@ -22,12 +22,23 @@ const Memory = () => {
     const [gameRestart, setGameRestart] = useState(false);
 
     useEffect(() => {
+        for(let i = 0; i < memoryList.length; i++) {
+            hasCardBeenTurned.push(false);
+        }
+    }, []);
+
+    useEffect(() => {
         if(moveCounter === 2) {
             //---------compare cards-----------
             const srcCard1 = turnedCards[0].getAttribute('src');
             const srcCard2 = turnedCards[1].getAttribute('src');
             //--------same cards-------------
             if(srcCard1 === srcCard2) {
+                const idCard1 = turnedCards[0].id - 1;
+                const idCard2 = turnedCards[1].id - 1;
+                hasCardBeenTurned[idCard1] = true;
+                hasCardBeenTurned[idCard2] = true;
+                
                 setAllOpenedCards((oldArray) => [...oldArray, turnedCards[0], turnedCards[1]]);
                 const congrats = document.querySelector('#memoryCongrats');
                 congrats.setAttribute('class', 'memoryCongratsShown');
@@ -50,6 +61,7 @@ const Memory = () => {
         }
     }, [turnedCards]);
 
+    //--------Play Again Box - Visibility Toggle------------
     useEffect(() => {
         if(cardCounter === (memoryList.length / 2)) {
             const congrats = document.querySelector('#memoryPlayAgain');
@@ -72,12 +84,10 @@ const Memory = () => {
         const congrats = document.querySelector('#memoryPlayAgain');
         if(button === 'yes') {
             congrats.setAttribute('class', 'playAgainHidden');
-            //------------turn all cards around------------
-            /*allOpenedCards.forEach(img => {
+            //------------turn all cards around after restart------------
+            allOpenedCards.forEach(img => {
                 img.setAttribute('src', flipSide);
-            });*/
-            //------------mix up cards------------
-
+            });
             moveCounter = 0;
             cardCounter = 0;
             setTurnedCards([]);
@@ -87,12 +97,14 @@ const Memory = () => {
         }
     }
 
-    console.log(allOpenedCards);
-
+    //------------rearrange Cards after restart------------
     useEffect(() => {
         if(gameRestart) {
             memoryList.sort((a, b) => 0.5 - Math.random());
             setGameRestart(false);
+            for(let i = 0; i < memoryList.length; i++) {
+                hasCardBeenTurned[i] = (false);
+            }
         } else return;
     }, [gameRestart]);
 
@@ -101,11 +113,9 @@ const Memory = () => {
             <div className='memoryWindow'>
                 {
                 memoryList.map((pic) => {
-                    /*const thisCardId = pic.id;
-                    const test = allOpenedCards.find((thisCardId) => thisCardId);
-                    console.log('this is my test', test);*/
+                    const thisCardId = pic.id - 1;
                     return(
-                        <div key={pic.id} className='memoryCard' onClick={handleClick} >
+                        <div key={pic.id} className='memoryCard' onClick={ !hasCardBeenTurned[thisCardId] ? handleClick : () => {} } >
                             <Card props={pic} />
                         </div>
                     );
