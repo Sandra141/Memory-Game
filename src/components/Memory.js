@@ -4,13 +4,6 @@ import doublePictureArray from './memoryList';
 import Card from './Card';
 import flipSide from './images/flipSide.jpg';
 
-/*
-
-implement:
--different sizes of fields
-
-*/
-
 let moveCounter = 0;
 let cardCounter = 0;
 const hasCardBeenTurned = [];
@@ -47,7 +40,7 @@ const Memory = () => {
                 setTurnedCards([]);
                 setTimeout(() => {
                     congrats.setAttribute('class', 'memoryCongratsHidden');
-                }, 1300);
+                }, 1000);
             } else {
                 //--------turn back if no match------------
                 setTimeout(() => {
