@@ -1,7 +1,9 @@
 import dragon from './images/one.png';
 import pikatchu from './images/two.jpg';
 import plant from './images/three.png';
-import turtle from './images/four.jpg';
+import turtle from './images/four.png';
+import SpoonPokemon from './images/five.png';
+import purpleGhost from './images/six.png';
 
 const pictures = [
     {
@@ -20,6 +22,14 @@ const pictures = [
         "id": 4,
         "source": turtle
     },
+    {
+        "id": 5,
+        "source": SpoonPokemon
+    },
+    {
+        "id": 6,
+        "source": purpleGhost
+    }
 ]
 
 const doublePictureArray = () => {

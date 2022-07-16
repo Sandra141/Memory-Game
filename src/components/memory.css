@@ -1,6 +1,8 @@
+/*------------Main Memory------------*/
 .memoryContainer {
     display: flex;
     justify-content: center;
+    margin: 30px;
 }
 
 .memoryWindow {
@@ -8,7 +10,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 1000px;
+    width: 70vw;
     border: solid black 2px;
     border-radius: 15px;
 
@@ -18,8 +20,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 250px;
+    height: 25vh;
+    max-width: 200px;
     width: 20%;
+    min-height: 250px;
     margin: 20px;
     overflow: hidden;
     border: solid black 2px;
@@ -29,6 +33,8 @@
 .cardImage {
     width: 100%;
 }
+
+/*------------"Well Done" Message------------*/
 
 .memoryCongratsHidden {
     display: none;
@@ -54,6 +60,8 @@
       opacity:0;
     }
 }
+
+/*------------Play again Section------------*/
 
 .playAgainHidden {
     display: none;
